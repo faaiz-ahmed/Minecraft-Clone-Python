@@ -1,4 +1,4 @@
-🧱 Minecraft Alpha Clone - Built with Ursina Engine
+# 🧱 Minecraft Alpha Clone 
 
 A simple yet engaging Minecraft-style 3D sandbox game built using Python and the [Ursina Engine](https://www.ursinaengine.org/). In this alpha version, you can explore a procedurally generated voxel terrain, place and destroy blocks, switch block types, and enjoy smooth first-person controls — all from an intuitive UI and HUD.
 
