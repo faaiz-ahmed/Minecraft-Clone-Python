@@ -76,7 +76,7 @@ python main.py
 ![Main Menu](screenshots/mainmenu.PNG)
 
 ![Gameplay](screenshots/Gameplay.png)
-```
+
 
 ---
 
