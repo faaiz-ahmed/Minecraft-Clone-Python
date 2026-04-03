@@ -70,7 +70,6 @@ python main.py
 
 ## 🖼️ Screenshots
 
-> Add your gameplay screenshots here by uploading them and linking like below:
 
 
 ![Main Menu](screenshots/Menu.PNG)
