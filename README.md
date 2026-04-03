@@ -81,7 +81,7 @@ python main.py
 ---
 
 ## 💡 Ideas for Future Improvements
-
+- It is not perfect and there can be bugs and i will solve these
 - Add sound effects and music
 - Implement block stacking limits
 - Day-night cycle
