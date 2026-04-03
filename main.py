@@ -6,11 +6,10 @@ import os
 
 app = Ursina()
 
-WORLD_SIZE     = 20
+WORLD_SIZE = 20
 INVENTORY_SIZE = 9
-FLAT_RADIUS    = 8
+FLAT_RADIUS = 8
 
-# ── Textures ───────────────────────────────────────────────────────────────────
 def load_texture_safe(path):
     if os.path.exists(path):
         return load_texture(path)
@@ -18,42 +17,39 @@ def load_texture_safe(path):
     return color.white
 
 textures = {
-    'grass':      load_texture_safe("asset/grass.png"),
-    'dirt':       load_texture_safe("asset/dirt.png"),
-    'stone':      load_texture_safe("asset/stone.png"),
-    'brick':      load_texture_safe("asset/brick.png"),
-    'plank':      load_texture_safe("asset/plank.png"),
-    'wood':       load_texture_safe("asset/wood.png"),
-    'birch':      load_texture_safe("asset/birch.png"),
+    'grass': load_texture_safe("asset/grass.png"),
+    'dirt': load_texture_safe("asset/dirt.png"),
+    'stone': load_texture_safe("asset/stone.png"),
+    'brick': load_texture_safe("asset/brick.png"),
+    'plank': load_texture_safe("asset/plank.png"),
+    'wood': load_texture_safe("asset/wood.png"),
+    'birch': load_texture_safe("asset/birch.png"),
     'stonebrick': load_texture_safe("asset/stonebrick.png"),
-    'wall':       load_texture_safe("asset/wall.png"),
-    'sky':        load_texture_safe("asset/sky.png"),
+    'wall': load_texture_safe("asset/wall.png"),
+    'sky': load_texture_safe("asset/sky.png"),
 }
 
 inventory = [
-    ('grass',      textures['grass']),
-    ('dirt',       textures['dirt']),
-    ('stone',      textures['stone']),
-    ('brick',      textures['brick']),
-    ('plank',      textures['plank']),
-    ('wood',       textures['wood']),
-    ('birch',      textures['birch']),
+    ('grass', textures['grass']),
+    ('dirt', textures['dirt']),
+    ('stone', textures['stone']),
+    ('brick', textures['brick']),
+    ('plank', textures['plank']),
+    ('wood', textures['wood']),
+    ('birch', textures['birch']),
     ('stonebrick', textures['stonebrick']),
-    ('wall',       textures['wall']),
+    ('wall', textures['wall']),
 ]
 
-# ── State ──────────────────────────────────────────────────────────────────────
 selected_block = 0
-block_count    = 0
-game_started   = False
-world_blocks   = {}
+block_count = 0
+game_started = False
+world_blocks = {}
 
-# ── Scene ──────────────────────────────────────────────────────────────────────
 Entity(model='sphere', texture=textures['sky'], scale=400, double_sided=True)
 DirectionalLight(color=color.white, rotation=(50, -30, 0))
 AmbientLight(color=color.rgb(90, 90, 90))
 
-# ── Voxel ──────────────────────────────────────────────────────────────────────
 class Voxel(Button):
     def __init__(self, position=(0, 0, 0), block_name='grass'):
         super().__init__(
@@ -91,7 +87,6 @@ class Voxel(Button):
                 Voxel(position=new_pos, block_name=inventory[selected_block][0])
                 update_block_counter()
 
-# ── Hand ───────────────────────────────────────────────────────────────────────
 class Hand(Entity):
     def __init__(self):
         super().__init__(
@@ -107,7 +102,6 @@ class Hand(Entity):
     def update_texture(self):
         self.texture = inventory[selected_block][1]
 
-# ── Terrain ────────────────────────────────────────────────────────────────────
 def get_height(x, z):
     dist = math.sqrt(x * x + z * z)
     if dist < FLAT_RADIUS:
@@ -136,7 +130,6 @@ def generate_terrain():
                     bname = 'stone'
                 Voxel(position=(x, y, z), block_name=bname)
 
-# ── HUD ────────────────────────────────────────────────────────────────────────
 hud = {}
 
 def create_hud():
@@ -218,7 +211,6 @@ def update_selection():
     hud['current_block'].text = f'[ {inventory[selected_block][0]} ]'
     hand.update_texture()
 
-# ── Game flow ──────────────────────────────────────────────────────────────────
 def start_game():
     global game_started
     game_started   = True
@@ -233,11 +225,11 @@ def start_game():
 
 def show_menu():
     global game_started
-    game_started   = False
-    menu.enabled   = True
-    mouse.locked   = False
+    game_started = False
+    menu.enabled = True
+    mouse.locked = False
     player.enabled = False
-    hand.enabled   = False
+    hand.enabled = False
     _set_hud(False)
 
 def input(key):
@@ -254,29 +246,24 @@ def input(key):
     if key == 'f':
         if player.gravity == 1:
             player.gravity = 0
-            player.speed   = 10
+            player.speed = 10
         else:
             player.gravity = 1
-            player.speed   = 5
+            player.speed = 5
 
-# ── Main Menu ──────────────────────────────────────────────────────────────────
 menu = Entity(parent=camera.ui)
 
-# Dark overlay
 Entity(parent=menu, model='quad',
        color=color.rgba(0, 0, 0, 0.88), scale=(4, 3))
 
-# Center card
 Entity(parent=menu, model='quad',
        color=color.rgba(0.07, 0.07, 0.07, 0.97),
        scale=(0.52, 0.72), position=(0, 0.04))
 
-# Green stripe on top of card
 Entity(parent=menu, model='quad',
        color=color.rgba(0.25, 0.75, 0.25, 1),
        scale=(0.52, 0.012), position=(0, 0.40))
 
-# Title text
 Text(parent=menu, text='MINECRAFT',
      scale=3.8, y=0.32,
      color=color.rgba(0.45, 1, 0.32, 1), origin=(0, 0))
@@ -284,12 +271,10 @@ Text(parent=menu, text='CLONE',
      scale=2.0, y=0.21,
      color=color.rgba(0.65, 1, 0.55, 0.85), origin=(0, 0))
 
-# Thin divider
 Entity(parent=menu, model='quad',
        color=color.rgba(1, 1, 1, 0.10),
        scale=(0.40, 0.003), position=(0, 0.14))
 
-# Buttons
 Button(parent=menu, text='PLAY',
        scale=(0.36, 0.088), y=0.07,
        color=color.rgba(0.12, 0.52, 0.12, 1),
@@ -302,13 +287,11 @@ Button(parent=menu, text='QUIT',
        highlight_color=color.rgba(0.72, 0.12, 0.12, 1),
        on_click=application.quit)
 
-# Controls hint
 Text(parent=menu,
      text='WASD Move  |  Space Jump  |  F Fly\n1-9 Select Block  |  ESC Menu',
      scale=0.46, y=-0.22,
      color=color.rgba(0.55, 0.55, 0.55, 0.85), origin=(0, 0))
 
-# ── Bootstrap ──────────────────────────────────────────────────────────────────
 print("Generating terrain...")
 generate_terrain()
 terrain_entities = [e for e in scene.entities if isinstance(e, Voxel)]
